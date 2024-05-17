@@ -7,7 +7,7 @@ import java.util.Random;
 
 public class Person {
     // images' params
-    static int imagesNumber = 35;
+    static int imagesNumber = 48;
     static int height = 50;
     static int width = 50;
     static int maxSpeed = 3;
@@ -38,14 +38,14 @@ public class Person {
     void go(int border1, int border2) {
         int newX = this.x + this.speed;
         if (random.nextInt(100) < 6) {
-            this.x = (border1 + Person.width) < newX && newX < (border2 - Person.width) ? newX : this.x;
+            this.x = border1 < newX && newX < (border2 - Person.width) ? newX : this.x;
         }
         if (random.nextInt(100) < 2) this.speed *= -1;
     }
 
-    boolean disappear(int leftBorder) {
-        this.x -= random.nextInt(3);
-        return this.x < leftBorder;
+    public boolean disappear(int leftBorder, int rightBorder) {
+        this.x += speed;
+        return this.x < (leftBorder - Person.width / 2) || this.x > (rightBorder - Person.width / 2);
     }
 
     void paint(Graphics g) {

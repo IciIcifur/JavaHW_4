@@ -4,19 +4,40 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8cb32701-b52b-4309-aa0d-4791e347b12d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Java_HW4.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Elevator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ElevatorsSimulation.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Person.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Skyscraper.java" afterDir="false" />
+    <list default="true" id="8cb32701-b52b-4309-aa0d-4791e347b12d" name="Changes" comment="Visualisation">
+      <change afterPath="$PROJECT_DIR$/src/people/35.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/people/36.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/people/37.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/people/38.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/people/39.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/people/40.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/people/41.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/people/42.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/people/43.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/people/44.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/people/45.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/people/46.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/people/47.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Elevator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Elevator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ElevatorsSimulation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Person.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Person.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Skyscraper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Skyscraper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/people/0.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/people/0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/people/1.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/people/1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/people/10.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/people/10.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/people/11.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/people/11.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/people/12.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/people/12.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/people/15.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/people/15.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/people/18.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/people/18.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/people/19.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/people/19.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/people/25.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/people/25.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/people/27.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/people/27.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/people/3.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/people/3.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/people/4.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/people/4.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/people/5.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/people/5.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/people/6.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/people/6.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/people/8.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/people/8.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,6 +54,10 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="KubernetesApiPersistence"><![CDATA[{}]]></component>
+  <component name="KubernetesApiProvider"><![CDATA[{
+  "isMigrated": true
+}]]></component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -40,13 +65,16 @@
   &quot;associatedIndex&quot;: 0
 }</component>
   <component name="ProjectId" id="2gV2Ri0WXoWqzIybnc6NOw3kJov" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
     &quot;Application.ElevatorsSimulation.executor&quot;: &quot;Run&quot;,
     &quot;Application.Main.executor&quot;: &quot;Run&quot;,
     &quot;Application.SimpleGame.executor&quot;: &quot;Run&quot;,
@@ -57,12 +85,22 @@
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;D:/Desktop/Olesya/Developing/Java/JAVA_HW4&quot;,
-    &quot;onboarding.tips.debug.path&quot;: &quot;D:/Desktop/Olesya/Developing/Java/JAVA_HW4/src/Main.java&quot;
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;D:/Desktop/Olesya/Developing/Java/JAVA_HW4/src/Main.java&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
   <component name="RunManager">
-    <configuration name="ElevatorsSimulation" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="ElevatorsSimulation" />
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Java_HW4" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -70,14 +108,15 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.ElevatorsSimulation" />
+        <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="jdk-21.0.2-openjdk-21.0.2-4caba194b151-4f524021" />
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.15989.150" />
+        <option value="bundled-js-predefined-1d06a55b98c1-91d5c284f522-JavaScript-IU-241.15989.150" />
       </set>
     </attachedChunks>
   </component>
@@ -89,7 +128,28 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1715768418538</updated>
+      <workItem from="1715846581283" duration="1092000" />
+      <workItem from="1715860760430" duration="8850000" />
+      <workItem from="1715885050181" duration="6747000" />
+      <workItem from="1715930149439" duration="13377000" />
     </task>
+    <task id="LOCAL-00001" summary="Visualisation">
+      <option name="closed" value="true" />
+      <created>1715843900520</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1715843900520</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="Visualisation" />
+    <option name="LAST_COMMIT_MESSAGE" value="Visualisation" />
   </component>
 </project>

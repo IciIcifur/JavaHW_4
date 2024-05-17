@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class Elevator {
     Size size; // capacity of elevator
     int fullness = 0; // number of people in elevator
-    ArrayList<Person> peopleInElevator = new ArrayList<>();
+    volatile ArrayList<Person> peopleInElevator = new ArrayList<>();
     // elevator's position
     int x;
     int y;
@@ -20,52 +20,36 @@ public class Elevator {
         this.size = size;
 
         this.width = size.width;
-        this.speed = size.speed;
+        this.speed = -1;
     }
 
-    void takePerson(Person person) {
-        this.peopleInElevator.add(person);
-    }
-
-    ArrayList<Person> newFloor() {
-        ArrayList<Person> arrived = new ArrayList<>();
-        for (Person person : this.peopleInElevator) {
-            if (person.destinationFloor == this.floor) {
-                arrived.add(person);
-                this.peopleInElevator.remove(person);
-            }
-        }
-
-        return arrived;
-    }
-
-    void paint(Graphics g) {
+    synchronized void paint(Graphics g) {
+        if (g == null) return;
         g.setColor(Color.white);
-        g.fillRect(this.x, this.y, this.width, this.height);
+        g.fillRect(this.x, this.y, this.width, height);
         g.setColor(Color.gray);
-        g.drawRect(this.x, this.y, this.width, this.height);
+        g.drawRect(this.x, this.y, this.width, height);
         g.drawString(String.valueOf(this.floor), this.x + 5, this.y + 15);
         g.setColor(Color.red);
         g.drawString(String.valueOf(this.fullness), this.x + this.width - 15, this.y + 15);
 
         for (Person person : this.peopleInElevator) {
-            person.y = this.y - Person.height;
             person.paint(g);
+            person.y = this.y + Elevator.height - Person.height;
+            person.go(this.x, this.x + this.width);
         }
     }
 
     public enum Size {
-        LARGE(6, 60, 1),
-        SMALL(3, 50, 2);
+        LARGE(6, 70),
+        SMALL(3, 55);
 
         public final int number_of_people;
         public final int width;
-        public final int speed;
 
-        Size(int n, int width, int speed) {
+        Size(int n, int width) {
             this.number_of_people = n;
             this.width = width;
-            this.speed = speed;
         }
     }
 }

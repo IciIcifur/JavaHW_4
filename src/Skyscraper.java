@@ -1,77 +1,260 @@
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.Random;
 
-public class Skyscraper {
-    static int maximumPeopleOnFloor = 5;
-    static int width = 400;
+public class Skyscraper extends JFrame implements Runnable {
+    // house params
+    static int width = 400, height;
+    static int floorHeight = 76, floorsNumber;
+    static int x1, x2, y1, y2;
+    static int attic = 24, elevatorsBoxWidth = 155, elevatorsBoxX1, elevatorsBoxX2;
+    // people
+    volatile static ArrayList<ArrayList<Person>> peopleOnFloors;
+    volatile static ArrayList<Person> disappearing = new ArrayList<>();
+    static int maximumPeopleOnFloor;
+    // elevators
+    volatile static Elevator[] elevators;
+    // window
+    static Canvas canvas;
+    static int WINDOW_WIDTH;
+    static int WINDOW_HEIGHT;
+    // other
     static Random random = new Random();
-    int floorHeight = 76;
-    int floorsNumber;
-    int height;
-    int x1, x2, y1, y2;
-    int attic = 24, elevatorsBoxWidth = 155;
-    int elevatorsBoxX1, elevatorsBoxX2;
 
-    ArrayList<ArrayList<Person>> peopleOnFloors;
+    public Skyscraper(int w, int h, String title, int floorsNumber, int maximumPeopleOnFloor) {
+        // canvas
+        WINDOW_HEIGHT = h;
+        WINDOW_WIDTH = w;
+        setTitle(title);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-    Skyscraper(int xPosition, int yPosition, int floorsNumber) {
-        this.floorsNumber = floorsNumber;
-        this.height = floorHeight * floorsNumber + this.attic;
+        Skyscraper.canvas = new Canvas();
+        canvas.setBackground(Color.white);
+        canvas.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
 
-        this.x1 = xPosition;
-        this.x2 = this.x1 + width;
-        this.y2 = yPosition;
-        this.y1 = this.y2 - this.height;
+        add(canvas);
+        pack();
+        setLocationRelativeTo(null);
+        setResizable(false);
+        setVisible(true);
 
-        this.peopleOnFloors = new ArrayList<>(floorsNumber);
+        // house
+        Skyscraper.floorsNumber = floorsNumber;
+        height = floorHeight * floorsNumber + attic;
+        Skyscraper.maximumPeopleOnFloor = maximumPeopleOnFloor;
+
+        x1 = (WINDOW_WIDTH - Skyscraper.width) / 2;
+        x2 = x1 + width;
+        y2 = (WINDOW_HEIGHT - 10);
+        y1 = y2 - height;
+
+        peopleOnFloors = new ArrayList<>(floorsNumber);
         for (int i = 1; i <= floorsNumber + 1; i++) {
-            this.peopleOnFloors.add(new ArrayList<>());
+            peopleOnFloors.add(new ArrayList<>());
         }
 
-        this.elevatorsBoxX1 = this.x1 + (width - this.elevatorsBoxWidth) / 2;
-        this.elevatorsBoxX2 = this.x1 + (width - this.elevatorsBoxWidth) / 2 + this.elevatorsBoxWidth;
+        elevatorsBoxX1 = x1 + (width - elevatorsBoxWidth) / 2;
+        elevatorsBoxX2 = x1 + (width - elevatorsBoxWidth) / 2 + elevatorsBoxWidth;
+
+        // elevators
+        elevators = new Elevator[2];
+        elevators[0] = new Elevator(elevatorsBoxX1 + 10, y2 - Elevator.height, Elevator.Size.LARGE);
+        elevators[1] = new Elevator(elevatorsBoxX2 - 10 - Elevator.Size.SMALL.width, y2 - Elevator.height, Elevator.Size.SMALL);
+    }
+
+    public void run() {
+        Thread eSmall = new Thread(new ElevatorActive(0));
+        Thread eLarge = new Thread(new ElevatorActive(1));
+
+        eSmall.setPriority(4);
+        eLarge.setPriority(4);
+
+        eSmall.start();
+        eLarge.start();
+
+        while (true) {
+            canvas.repaint();
+            try {
+                Thread.sleep(15);
+                newPerson();
+                animate();
+            } catch (InterruptedException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    synchronized void animate() {
+        for (ArrayList<Person> floor : Skyscraper.peopleOnFloors) {
+            for (Person person : floor)
+                person.go(x1, x2);
+        }
+
+        ArrayList<Person> disappeared = new ArrayList<>();
+        for (Person person : Skyscraper.disappearing) {
+            if (person.disappear(person.destinationFloor == 1 ? 0 : x1, person.destinationFloor == 1 ? WINDOW_WIDTH : x2)) {
+                disappeared.add(person);
+            }
+        }
+
+        for (Person person : disappeared) Skyscraper.disappearing.remove(person);
     }
 
     void newPerson() {
-        int currentFloor = 1 + random.nextInt(this.floorsNumber);
-        int destinationFloor = 1 + random.nextInt(this.floorsNumber);
-        if (this.peopleOnFloors.get(currentFloor).size() < maximumPeopleOnFloor && currentFloor != destinationFloor && random.nextInt(100) < 5) {
-            int currentY = this.y1 + 1 + this.attic + currentFloor * this.floorHeight - Person.height;
-            int currentX = this.x1 + 1 + random.nextInt(width - Person.width);
-            this.peopleOnFloors.get(currentFloor).add(new Person(destinationFloor, currentX, currentY));
+        int currentFloor = 1 + random.nextInt(floorsNumber);
+        int destinationFloor = 1 + random.nextInt(floorsNumber);
+        if (peopleOnFloors.get(currentFloor).size() < maximumPeopleOnFloor && currentFloor != destinationFloor && random.nextInt(100) < 3) {
+            int currentY = y1 + 1 + attic + (floorsNumber - currentFloor + 1) * floorHeight - Person.height;
+            int currentX = x1 + 1 + random.nextInt(width - Person.width);
+            peopleOnFloors.get(currentFloor).add(new Person(destinationFloor, currentX, currentY));
         }
     }
 
-    void paint(Graphics g, int windowH, int windowW) {
+    static void paint(Graphics context, int windowH, int windowW) {
         // sky
-        g.setColor(new Color(170, 213, 239));
-        g.fillRect(0, 0, windowW, windowH);
+        context.setColor(new Color(170, 205, 239));
+        context.fillRect(0, 0, windowW, windowH);
         // grass
-        g.setColor(new Color(184, 203, 142));
-        g.fillRect(0, windowH - 20, windowW,20);
+        context.setColor(new Color(151, 173, 101));
+        context.fillRect(0, windowH - 20, windowW, 20);
 
         // house
-        g.setColor(Color.white);
-        g.fillRect(this.x1, this.y1, width, this.height);
+        context.setColor(Color.white);
+        context.fillRect(x1, y1, width, height);
 
         // elevators' box
-        g.setColor(Color.lightGray);
-        g.fillRect(this.elevatorsBoxX1, this.y1, this.elevatorsBoxWidth, this.height);
+        context.setColor(Color.lightGray);
+        context.fillRect(elevatorsBoxX1, y1, elevatorsBoxWidth, height);
 
         // floors
-        int floorX1 = this.x1;
-        int floorX2 = this.x1 + width;
-        for (int i = 1; i <= this.floorsNumber; i++) {
-            int floorH = this.y1 + this.attic + i * this.floorHeight;
-            int currentFloor = this.floorsNumber - i + 1;
-            g.setColor(Color.black);
-            g.drawString(String.valueOf(currentFloor), floorX1 - 20, floorH - 15);
-            g.drawLine(floorX1, floorH, floorX2, floorH);
+        int floorX1 = x1;
+        int floorX2 = x1 + width;
+        for (int i = 1; i <= floorsNumber; i++) {
+            int floorH = y1 + attic + i * floorHeight;
+            int currentFloor = floorsNumber - i + 1;
+            context.setColor(Color.black);
+            context.drawString(String.valueOf(currentFloor), floorX1 - 20, floorH - 15);
+            context.drawLine(floorX1, floorH, floorX2, floorH);
         }
 
         // house line
-        g.setColor(Color.black);
-        g.drawRect(this.x1, this.y1, width, this.height);
+        context.setColor(Color.black);
+        context.drawRect(x1, y1, width, height);
+    }
+
+    public static class ElevatorActive implements Runnable {
+        int index;
+
+        ElevatorActive(int index) {
+            this.index = index;
+        }
+
+        @Override
+        public void run() {
+            while (true) {
+                go();
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    System.out.println("Elevator has been interrupted.");
+                }
+            }
+        }
+
+        synchronized void processPeople() {
+            int floor = elevators[index].floor;
+            int speed = Skyscraper.elevators[index].speed;
+            boolean changed = false;
+
+            for (Person person : Skyscraper.peopleOnFloors.get(floor)) {
+                if (Skyscraper.elevators[index].fullness == Skyscraper.elevators[index].size.number_of_people) break;
+
+                if (onOneWay(floor, person.destinationFloor, speed)) {
+                    Skyscraper.elevators[index].peopleInElevator.add(person);
+                    Skyscraper.elevators[index].fullness++;
+                    person.x = Skyscraper.elevators[index].x;
+                    changed = true;
+                }
+            }
+
+            for (Person person : Skyscraper.elevators[index].peopleInElevator) {
+                peopleOnFloors.get(floor).remove(person);
+                if (person.destinationFloor == floor) Skyscraper.disappearing.add(person);
+            }
+
+            for (Person person : Skyscraper.disappearing) {
+                if (Skyscraper.elevators[index].peopleInElevator.contains(person)) {
+                    Skyscraper.elevators[index].peopleInElevator.remove(person);
+                    Skyscraper.elevators[index].fullness--;
+                    changed = true;
+                }
+            }
+
+            if (changed) try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+        synchronized void go() {
+            Skyscraper.elevators[index].y += Skyscraper.elevators[index].speed;
+            animate();
+
+            if (Skyscraper.elevators[index].y <= Skyscraper.y1 + Skyscraper.attic || Skyscraper.elevators[index].y >= Skyscraper.y2 - Elevator.height)
+                Skyscraper.elevators[index].speed *= -1;
+
+            if (floorChanged()) {
+                processPeople();
+            }
+        }
+
+        boolean floorChanged() {
+            elevators[index].floor = (y2 - elevators[index].y - 1) / floorHeight + 1;
+            return (y2 - elevators[index].y) % floorHeight == 0;
+        }
+
+        boolean onOneWay(int currentFloor, int destinationFloor, int speed) {
+            return currentFloor < destinationFloor && speed < 0 || currentFloor > destinationFloor && speed > 0;
+        }
+
+        void animate() {
+            for (Person person : elevators[index].peopleInElevator) {
+                person.y = elevators[index].y + Elevator.height - Person.height;
+                person.go(elevators[index].x, elevators[index].x + elevators[index].width);
+            }
+        }
+    }
+
+
+    static class Canvas extends JPanel {
+        @Override
+        synchronized public void paint(Graphics g) {
+            super.paint(g);
+
+            Skyscraper.paint(g, WINDOW_HEIGHT, WINDOW_WIDTH);
+
+            for (ArrayList<Person> floor : Skyscraper.peopleOnFloors) {
+                try {
+                    for (Person person : floor) person.paint(g);
+                } catch (ConcurrentModificationException e) {
+                    System.out.println("Error while drawing people on the floor.");
+                }
+            }
+
+            try {
+                for (Person person : Skyscraper.disappearing) person.paint(g);
+            } catch (ConcurrentModificationException e) {
+                System.out.println("Error while drawing disappearing people.");
+            }
+            try {
+                for (Elevator e : Skyscraper.elevators) e.paint(g);
+            } catch (ConcurrentModificationException e) {
+                System.out.println("Error while drawing elevators.");
+            }
+
+        }
     }
 }

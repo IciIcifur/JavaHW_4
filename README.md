@@ -39,8 +39,15 @@ This algorithm attempts to minimize mileage and waiting time, but doesn't guaran
 
 ### Functionality:
 
-- allows custom house's number of floors (**check window parameters**), FPS, title of the window, maximum people per
-  floor.
+- you may define custom parameters of simulation in `Main.java` file:
+
+    - custom house's number of floors (**check window parameters before changing**);
+
+    - custom FPS;
+
+    - custom title of the window;
+
+    - custom maximum people per floor.
 - generates people with random orders on floors of many-floored house.
 - attempts to minimize waiting time and total elevators' mileage.
 

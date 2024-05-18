@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
+import java.util.NoSuchElementException;
 import java.util.Random;
 
 public class Skyscraper extends JFrame implements Runnable {
@@ -13,6 +14,7 @@ public class Skyscraper extends JFrame implements Runnable {
     // people
     volatile static ArrayList<ArrayList<Person>> peopleOnFloors;
     volatile static ArrayList<Person> disappearing = new ArrayList<>();
+    volatile static ArrayList<Integer> queue = new ArrayList<>();
     static int maximumPeopleOnFloor;
     // elevators
     volatile static Elevator[] elevators;
@@ -50,6 +52,7 @@ public class Skyscraper extends JFrame implements Runnable {
         y2 = (WINDOW_HEIGHT - 10);
         y1 = y2 - height;
 
+        // people
         peopleOnFloors = new ArrayList<>(floorsNumber);
         for (int i = 1; i <= floorsNumber + 1; i++) {
             peopleOnFloors.add(new ArrayList<>());
@@ -105,11 +108,19 @@ public class Skyscraper extends JFrame implements Runnable {
     void newPerson() {
         int currentFloor = 1 + random.nextInt(floorsNumber);
         int destinationFloor = 1 + random.nextInt(floorsNumber);
-        if (peopleOnFloors.get(currentFloor).size() < maximumPeopleOnFloor && currentFloor != destinationFloor && random.nextInt(100) < 3) {
+        if (peopleOnFloors.get(currentFloor).size() < maximumPeopleOnFloor && currentFloor != destinationFloor && random.nextInt(100) < 2) {
             int currentY = y1 + 1 + attic + (floorsNumber - currentFloor + 1) * floorHeight - Person.height;
             int currentX = x1 + 1 + random.nextInt(width - Person.width);
             peopleOnFloors.get(currentFloor).add(new Person(destinationFloor, currentX, currentY));
+            addOrder(currentFloor);
         }
+    }
+
+    synchronized static void addOrder(int currentFloor) {
+        for (int order : queue) {
+            if (order == currentFloor) return;
+        }
+        queue.add(currentFloor);
     }
 
     static void paint(Graphics context, int windowH, int windowW) {
@@ -154,28 +165,60 @@ public class Skyscraper extends JFrame implements Runnable {
         @Override
         public void run() {
             while (true) {
-                go();
-                try {
-                    Thread.sleep(10);
-                } catch (InterruptedException e) {
-                    System.out.println("Elevator has been interrupted.");
+                if (takeOrder()) {
+                    while (go()) {
+                        try {
+                            Thread.sleep(15);
+                        } catch (InterruptedException e) {
+                            System.out.println("Elevator has been interrupted.");
+                        }
+                    }
                 }
             }
         }
 
-        synchronized void processPeople() {
+        synchronized boolean takeOrder() {
+            if (queue.isEmpty()) return false;
+
+            try {
+                elevators[index].target = queue.removeFirst();
+            } catch (NoSuchElementException e) {
+                System.out.println("Tried to take removed element.");
+                return false;
+            }
+
+            defineSpeed();
+            return true;
+        }
+
+        void defineSpeed() {
+            elevators[index].speed = Integer.compare(elevators[index].floor, elevators[index].target);
+        }
+
+        synchronized boolean go() {
+            elevators[index].y += Skyscraper.elevators[index].speed;
+            animate();
+
+            if (floorChanged()) {
+                return processPeople();
+            }
+            return true;
+        }
+
+        synchronized boolean processPeople() {
             int floor = elevators[index].floor;
             int speed = Skyscraper.elevators[index].speed;
-            boolean changed = false;
+            boolean stop = false;
 
             for (Person person : Skyscraper.peopleOnFloors.get(floor)) {
                 if (Skyscraper.elevators[index].fullness == Skyscraper.elevators[index].size.number_of_people) break;
 
                 if (onOneWay(floor, person.destinationFloor, speed)) {
-                    Skyscraper.elevators[index].peopleInElevator.add(person);
-                    Skyscraper.elevators[index].fullness++;
                     person.x = Skyscraper.elevators[index].x;
-                    changed = true;
+                    elevators[index].peopleInElevator.add(person);
+                    elevators[index].fullness++;
+                    changeTarget(person.destinationFloor);
+                    stop = true;
                 }
             }
 
@@ -188,27 +231,25 @@ public class Skyscraper extends JFrame implements Runnable {
                 if (Skyscraper.elevators[index].peopleInElevator.contains(person)) {
                     Skyscraper.elevators[index].peopleInElevator.remove(person);
                     Skyscraper.elevators[index].fullness--;
-                    changed = true;
+                    stop = true;
                 }
             }
 
-            if (changed) try {
-                Thread.sleep(500);
+            if (stop) try {
+                Thread.sleep(250);
             } catch (InterruptedException e) {
                 System.out.println(e.getMessage());
             }
-        }
 
-        synchronized void go() {
-            Skyscraper.elevators[index].y += Skyscraper.elevators[index].speed;
-            animate();
-
-            if (Skyscraper.elevators[index].y <= Skyscraper.y1 + Skyscraper.attic || Skyscraper.elevators[index].y >= Skyscraper.y2 - Elevator.height)
-                Skyscraper.elevators[index].speed *= -1;
-
-            if (floorChanged()) {
-                processPeople();
+            if (!peopleOnFloors.get(floor).isEmpty()) {
+                if (floor == elevators[index].target) {
+                    elevators[index].speed = 0;
+                    return true;
+                }
+                addOrder(floor);
             }
+
+            return floor != elevators[index].target;
         }
 
         boolean floorChanged() {
@@ -217,7 +258,14 @@ public class Skyscraper extends JFrame implements Runnable {
         }
 
         boolean onOneWay(int currentFloor, int destinationFloor, int speed) {
-            return currentFloor < destinationFloor && speed < 0 || currentFloor > destinationFloor && speed > 0;
+            return currentFloor < destinationFloor && speed < 0 || currentFloor > destinationFloor && speed > 0 || speed == 0;
+        }
+
+        void changeTarget(int destinationFloor) {
+            if (elevators[index].speed == 0 || elevators[index].speed > 0 && elevators[index].target > destinationFloor || elevators[index].speed < 0 && elevators[index].target < destinationFloor) {
+                elevators[index].target = destinationFloor;
+                defineSpeed();
+            }
         }
 
         void animate() {
@@ -227,7 +275,6 @@ public class Skyscraper extends JFrame implements Runnable {
             }
         }
     }
-
 
     static class Canvas extends JPanel {
         @Override

@@ -2,6 +2,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class Elevator {
+    int target; // floor elevator wants to arrive at
     Size size; // capacity of elevator
     int fullness = 0; // number of people in elevator
     volatile ArrayList<Person> peopleInElevator = new ArrayList<>();

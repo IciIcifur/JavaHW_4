@@ -35,10 +35,10 @@ public class Person {
 
     }
 
-    void go(int border1, int border2) {
+    void go(int leftBorder, int rightBorder) {
         int newX = this.x + this.speed;
         if (random.nextInt(100) < 6) {
-            this.x = border1 < newX && newX < (border2 - Person.width) ? newX : this.x;
+            this.x = leftBorder < newX && newX < (rightBorder - Person.width) ? newX : this.x;
         }
         if (random.nextInt(100) < 2) this.speed *= -1;
     }

@@ -4,13 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8cb32701-b52b-4309-aa0d-4791e347b12d" name="Changes" comment="Two threads for elevators and another thread for house.">
+    <list default="true" id="8cb32701-b52b-4309-aa0d-4791e347b12d" name="Changes" comment="Elevators' logic is correct.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Elevator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Elevator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Person.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Person.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Skyscraper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Skyscraper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/people/20.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/people/20.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/people/7.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/people/7.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,10 +26,10 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="KubernetesApiPersistence"><![CDATA[{}]]></component>
-  <component name="KubernetesApiProvider"><![CDATA[{
-  "isMigrated": true
-}]]></component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -105,6 +104,7 @@
       <workItem from="1715860760430" duration="8850000" />
       <workItem from="1715885050181" duration="6747000" />
       <workItem from="1715930149439" duration="31570000" />
+      <workItem from="1716013935615" duration="11045000" />
     </task>
     <task id="LOCAL-00001" summary="Visualisation">
       <option name="closed" value="true" />
@@ -122,7 +122,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715943911806</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Elevators' logic is correct.">
+      <option name="closed" value="true" />
+      <created>1716014112312</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1716014112312</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -132,6 +140,7 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Visualisation" />
     <MESSAGE value="Two threads for elevators and another thread for house." />
-    <option name="LAST_COMMIT_MESSAGE" value="Two threads for elevators and another thread for house." />
+    <MESSAGE value="Elevators' logic is correct." />
+    <option name="LAST_COMMIT_MESSAGE" value="Elevators' logic is correct." />
   </component>
 </project>

@@ -24,7 +24,7 @@ public class Elevator {
         this.speed = -1;
     }
 
-    synchronized void paint(Graphics g) {
+    void paint(Graphics g) {
         if (g == null) return;
         g.setColor(Color.white);
         g.fillRect(this.x, this.y, this.width, height);
@@ -34,10 +34,10 @@ public class Elevator {
         g.setColor(Color.red);
         g.drawString(String.valueOf(this.fullness), this.x + this.width - 15, this.y + 15);
 
-        for (Person person : this.peopleInElevator) {
-            person.paint(g);
-            person.y = this.y + Elevator.height - Person.height;
-            person.go(this.x, this.x + this.width);
+        for (int i = 0; i < this.peopleInElevator.size(); i++) {
+            this.peopleInElevator.get(i).y = this.y + Elevator.height - Person.height;
+            this.peopleInElevator.get(i).go(this.x, this.x + this.width);
+            this.peopleInElevator.get(i).paint(g);
         }
     }
 

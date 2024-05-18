@@ -4,6 +4,8 @@ _Currently works with 2 elevators (may be changed)._
 
 _**Icons source:** <a target="_blank" href="https://icons8.com">Icons8</a>._
 
+![img.png](img.png)
+
 ### How orders are being processed?
 
 This algorithm attempts to minimize mileage and waiting time, but doesn't guarantee the best solution.

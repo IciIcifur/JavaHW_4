@@ -2,7 +2,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class Elevator {
-    int target; // floor elevator wants to arrive at
+    int target; // floor elevator tries to arrive at
     Size size; // capacity of elevator
     int fullness = 0; // number of people in elevator
     volatile ArrayList<Person> peopleInElevator = new ArrayList<>();
@@ -24,6 +24,9 @@ public class Elevator {
         this.speed = -1;
     }
 
+    /**
+     * Draws an elevators, allows people in it to move, draws people in it.
+     */
     void paint(Graphics g) {
         if (g == null) return;
         g.setColor(Color.white);
@@ -41,6 +44,9 @@ public class Elevator {
         }
     }
 
+    /**
+     * Defines parameters of an elevator with specific size (type).
+     */
     public enum Size {
         LARGE(6, 70),
         SMALL(3, 55);

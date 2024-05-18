@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8cb32701-b52b-4309-aa0d-4791e347b12d" name="Changes" comment="Elevators' logic is correct.">
+    <list default="true" id="8cb32701-b52b-4309-aa0d-4791e347b12d" name="Changes" comment="Exceptions are fixed (potentially)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Elevator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Elevator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Person.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Person.java" afterDir="false" />
@@ -104,7 +105,7 @@
       <workItem from="1715860760430" duration="8850000" />
       <workItem from="1715885050181" duration="6747000" />
       <workItem from="1715930149439" duration="31570000" />
-      <workItem from="1716013935615" duration="11045000" />
+      <workItem from="1716013935615" duration="15996000" />
     </task>
     <task id="LOCAL-00001" summary="Visualisation">
       <option name="closed" value="true" />
@@ -130,7 +131,15 @@
       <option name="project" value="LOCAL" />
       <updated>1716014112312</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Exceptions are fixed (potentially)">
+      <option name="closed" value="true" />
+      <created>1716026310240</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1716026310240</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -141,6 +150,7 @@
     <MESSAGE value="Visualisation" />
     <MESSAGE value="Two threads for elevators and another thread for house." />
     <MESSAGE value="Elevators' logic is correct." />
-    <option name="LAST_COMMIT_MESSAGE" value="Elevators' logic is correct." />
+    <MESSAGE value="Exceptions are fixed (potentially)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Exceptions are fixed (potentially)" />
   </component>
 </project>

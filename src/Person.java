@@ -11,14 +11,14 @@ public class Person {
     static int height = 50;
     static int width = 50;
     static int maxSpeed = 3;
-    // local random
-    static Random random = new Random();
     // person's params
     int x;
     int y;
     int speed;
     int destinationFloor;
     BufferedImage image;
+    // local random
+    static Random random = new Random();
 
     Person(int destination, int x, int y) {
         this.speed = 1 + random.nextInt(maxSpeed);
@@ -35,6 +35,10 @@ public class Person {
 
     }
 
+    /**
+     * Changes person's X coordinate between borders (chance less than 6%),
+     * changes person's speed direction (chance 2%).
+     */
     void go(int leftBorder, int rightBorder) {
         int newX = this.x + this.speed;
         if (random.nextInt(100) < 6) {
@@ -43,13 +47,19 @@ public class Person {
         if (random.nextInt(100) < 2) this.speed *= -1;
     }
 
-    public boolean disappear(int leftBorder, int rightBorder) {
+    /**
+     * Changes person's X coordinate between borders (chance 100%).
+     * Returns `true` if a person might disappear from the screen.
+     */
+    boolean disappear(int leftBorder, int rightBorder) {
         this.x += speed;
         return this.x < (leftBorder - Person.width / 2) || this.x > (rightBorder - Person.width / 2);
     }
 
+    /**
+     * Draws person's image.
+     */
     void paint(Graphics g) {
-        // person's icon
         g.drawImage(this.image, this.x, this.y, width, height, null);
     }
 }
